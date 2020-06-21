@@ -1,3 +1,4 @@
 .vscode/settings.json
 .__pycache__
-.cpython
+cpython
+.dev/Python 3/NumericalMethods/__pycache__

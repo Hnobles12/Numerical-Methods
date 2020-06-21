@@ -2,5 +2,6 @@
 .__pycache__
 *.pyc
 *.cpython
-
+__pycache__/
+*.py[cod]
 .dev/Python 3/NumericalMethods/__pycache__

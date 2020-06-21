@@ -1,7 +1,8 @@
 #Root solving
 import math as m
 import numpy as np
-import sympy as sp
+#import sympy as sp
+import scipy as sc
 #import error
 #Bisection
 def bisection(func, bounds, TOL=10e-16, return_data=False):
@@ -37,3 +38,11 @@ def bisection(func, bounds, TOL=10e-16, return_data=False):
 
 
 #Newton-Raphson
+def newton(func, val, TOL=10e-16, return_data=False):
+    x = val
+    while abs(func(x)) > TOL:
+        diff = sc.misc.derivative(func, x, 1e-6)
+        if diff == 0:
+            raise Exception('Division by zero error, check derivative.')
+        x = x - (func(x)/diff)
+    return x

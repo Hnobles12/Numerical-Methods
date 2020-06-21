@@ -3,8 +3,9 @@ import math as m
 import numpy as np
 #import sympy as sp
 import scipy as sc
-#import error
+
 #Bisection
+##Passed Checks
 def bisection(func, bounds, TOL=10e-16, return_data=False):
     if np.sign(bounds[0])==np.sign(bounds[1]):
         #error.err('Root is not Bracketed')
@@ -38,11 +39,24 @@ def bisection(func, bounds, TOL=10e-16, return_data=False):
 
 
 #Newton-Raphson
+##Passed Checks
 def newton(func, val, TOL=10e-16, return_data=False):
     x = val
+    data = [x]
+    i=0
+    it = [i]
+    err = []
+
     while abs(func(x)) > TOL:
         diff = sc.misc.derivative(func, x, 1e-6)
         if diff == 0:
             raise Exception('Division by zero error, check derivative.')
         x = x - (func(x)/diff)
-    return x
+        i+=1
+        it.append(i)
+        data.append(x)
+        err.append(abs(func(x)))
+    if return_data is True:
+        return [x, data, it, err]
+    else:
+        return x

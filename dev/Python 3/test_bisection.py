@@ -19,3 +19,4 @@ print('Error: ', err[len(err)-1])
 print('eval: ', func(val))
 print('Iterations: ', it)
 print("Data: ", data)
+q

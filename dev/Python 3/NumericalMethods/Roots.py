@@ -38,24 +38,26 @@ def bisection(func, bounds, TOL=10e-16, return_data=False):
         return [xmid, data, IT]
 
 
-#Newton-Raphson
-##Passed Checks
-def newton(func, val, TOL=10e-16, return_data=False):
+#Translated Newton Method
+def newton(func, val, translated_root=0, TOL=10e-16, return_data=False, max_iter=100):
+    func2 = lambda x: func(x) - translated_root
     x = val
     data = [x]
     i=0
     it = [i]
     err = []
 
-    while abs(func(x)) > TOL:
-        diff = sc.misc.derivative(func, x, 1e-6)
+    while abs(func2(x)) > TOL:
+        diff = sc.misc.derivative(func2, x, 1e-6)
         if diff == 0:
             raise Exception('Division by zero error, check derivative.')
-        x = x - (func(x)/diff)
+        x = x - (func2(x)/diff)
         i+=1
         it.append(i)
         data.append(x)
-        err.append(abs(func(x)))
+        err.append(abs(func2(x)))
+        if i > max_iter:
+            raise Exception('Maximum number of iterations reached.')
     if return_data is True:
         return [x, data, it, err]
     else:

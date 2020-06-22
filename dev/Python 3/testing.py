@@ -5,7 +5,7 @@ import numpy as np
 
 func = lambda x: 3*x**4 + 2*x**2 + 10*x + 4
 
-x = np.linspace(3.5,4.5, 100000)
+x = np.linspace(3.5,4.5, 5)
 y = []
 
 for i in x:

@@ -24,4 +24,22 @@ def funcIntegral(func, bounds, divs=100000):
         h = (abs(b-a)/divs)
         area += (y[i+1]+y[i])*h*0.5
     return area
-        
+
+def simpsonIntegral(x,y):
+    if len(x) != len(y):
+        raise Exception('Input array lengths do not match.')
+    if len(x) < 2:
+        raise Exception('Input arrays too short, must have minimum length of 2.')
+    
+    area = 0
+    for i in range(len(x)-1):
+        h = (x[i+1]-x[i])/3
+        I = h*(y[i])
+        if (i == 0) or (i == len(x)-1):
+            area += I
+        elif (i%2 == 0):
+            area += I*2
+        elif (i%2 != 0):
+            area += I*4
+    
+    return area

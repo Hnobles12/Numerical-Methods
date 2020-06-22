@@ -13,10 +13,15 @@ def numIntegral(x, y):
     return area
 
 def funcIntegral(func, bounds, divs=100000):
-    a,b = bounds[0],bounds[1]
+    a,b,area = bounds[0],bounds[1],0
     data = np.linspace(a,b,divs)
-    area = 0
+    y = []
+
+    for i in data:
+        y.append(func(i))
+    
     for i in range(len(data)-1):
-        area += (data[i+1]+data[i])*(abs(b-a)/divs)*0.5
+        h = (abs(b-a)/divs)
+        area += (y[i+1]+y[i])*h*0.5
     return area
         

@@ -2,7 +2,7 @@
 import math as m
 import numpy as np
 #import sympy as sp
-import scipy as sc
+import scipy.misc as sc
 
 #Bisection
 ##Passed Checks
@@ -48,7 +48,7 @@ def newton(func, val, translated_root=0, TOL=10e-16, return_data=False, max_iter
     err = []
 
     while abs(func2(x)) > TOL:
-        diff = sc.misc.derivative(func2, x, 1e-6)
+        diff = sc.derivative(func2, x, 1e-6)
         if diff == 0:
             raise Exception('Division by zero error, check derivative.')
         x = x - (func2(x)/diff)

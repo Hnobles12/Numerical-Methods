@@ -153,24 +153,27 @@ std::vector<double> calculus::numDerivative(std::vector<double> x, std::vector<d
  * @param {double (*func)(double)} func : Function to perform derivative on
  * @param double point : Point at which to evaluate derivative
  * @param double TOL : Tolerance for derivative (default 1e-6)
- * @return double diff : Derivative evaluation
+ * @return double avg_diff : Derivative evaluation
 */
 double calculus::funcDerivative(double (*func)(double), double point, double TOL=1e-6){
+    std::vector<double> x, y, dy;
+    double avg_diff;
+
     double DIVS = 1e6;
     double dh = TOL / DIVS;
     double bound = point - TOL/2;
-
-    std::vector<double> x, y, dy;
 
     while (bound <= (point+TOL/2)){
         x.push_back(bound);
         bound += dh;
     }
+
     for (int i=0; i < x.size(); i++){
         y.push_back(func(x[i]));
     }
 
     dy = numDerivative(x,y);
+    avg_diff = math::vectorAvg(dy);
 
-    
+    return avg_diff;
 }

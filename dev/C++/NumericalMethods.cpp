@@ -19,7 +19,6 @@ bool misc::sign(int num){
     if (num >= 0){return true;}
     else {return false;}
 }
-
 /**
  * Absolute value of an integer
  * @param int num 
@@ -29,7 +28,6 @@ int misc::abs(int num){
     if (num < 0){return num*-1;}
     else{return num;}
 }
-
 /**
  * Absolute value of a double
  * @param double num
@@ -39,7 +37,6 @@ double misc::abs(double num){
     if (num < 0){return num*-1;}
     else{return num;}
 }
-
 /**
  * Closest Value index in vector
  * @param std::vector<double> vec
@@ -60,7 +57,6 @@ int misc::closestVal(std::vector<double> vec, double val){
 
 
 //Math Fucntions
-
 /**
 *Vector Type Constructor
 * @param double x_val : X Value
@@ -88,7 +84,6 @@ double math::Vector::mag(){
 double math::dot(math::Vector v1, math::Vector v2){
     return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
 }
-
 /** 
  * Vector Cross Product
  * @param math::Vector v1 : Vector 1
@@ -102,7 +97,28 @@ math::Vector math::cross(math::Vector v1, math::Vector v2){
     vec.z = (v1.x*v2.y)-(v1.y*v2.x);
     return vec;
 }
+/**
+ * Get average of elements in a vector
+ * @param Vector vec : vector
+ * @return {double} avg : Average
+*/
+double math::vectorAvg(Vector vec){
+    return (vec.x + vec.y + vec.z)/3;
+}
+/**
+ * Get average of elements in a vector
+ * @param std::vector<double> vec : vector
+ * @return {double} avg : Average
+*/ 
+double math::vectorAvg(std::vector<double> vec){
+    double len = vec.size();
+    double sum = 0;
 
+    for (int i=0; i < len; i++){
+        sum += vec[i];
+    }
+    return sum/len;
+}
 
 
 //Calculus Functions
@@ -132,27 +148,29 @@ std::vector<double> calculus::numDerivative(std::vector<double> x, std::vector<d
 
     return diff;
 }
-/*
-/*Numerical Derivative (dy/dx) - Finite Difference
- * @param double x[] : Independent array
- * @param double y[] : Dependent array
- * @return {double*} diff : Double array pointer
-
-std::array<double> calculus::numDerivative(double x[], double y[]){
-    int x_size = sizeof(x);
-    int y_size =  sizeof(y);
-
-    if (x_size != y_size){
-        throw "Input array sizes do not match.";
-    }
-    std::array<double> diff;
-    double diff[x_size-1], dy, h;
-
-    for (int i=0; i<(x_size-1); i++){
-        dy = y[i+1]-y[i];
-        h = x[i+1]-x[i];
-        diff[i] = dy/h;
-    }
-    return diff;
-}
+/**
+ * Functional Derivative
+ * @param {double (*func)(double)} func : Function to perform derivative on
+ * @param double point : Point at which to evaluate derivative
+ * @param double TOL : Tolerance for derivative (default 1e-6)
+ * @return double diff : Derivative evaluation
 */
+double calculus::funcDerivative(double (*func)(double), double point, double TOL=1e-6){
+    double DIVS = 1e6;
+    double dh = TOL / DIVS;
+    double bound = point - TOL/2;
+
+    std::vector<double> x, y, dy;
+
+    while (bound <= (point+TOL/2)){
+        x.push_back(bound);
+        bound += dh;
+    }
+    for (int i=0; i < x.size(); i++){
+        y.push_back(func(x[i]));
+    }
+
+    dy = numDerivative(x,y);
+
+    
+}

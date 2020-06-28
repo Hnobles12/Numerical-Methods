@@ -1,17 +1,13 @@
-//#include "NumericalMethods.hpp"
+#include "NumericalMethods.hpp"
 #include <iostream>
 
 
 using namespace std;
+//using namespace math;
 
 
 int main(){
-    /*
-    int num = 100;
-    int* num_ptr = &num;
-    cout << num << endl;
-    cout << *num_ptr << endl;
-    cout << &num_ptr << endl;
-    */
+    math::Vector v1(0,1,2);
+    cout << v1.x << endl;
 
 }

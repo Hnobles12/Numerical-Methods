@@ -222,6 +222,57 @@ double calculus::avgDerivative(std::vector<double> x, std::vector<double> y){
     double avg_diff = math::vectorAvg(diff);
     return avg_diff;
 }
+/**
+ * *Numerical Integral Evaluation
+ * @param double_func_ptr func : Function to integrate
+ * @param double a : first bound
+ * @param double b : second bound
+ * @return {double} area : Integral evaluation
+*/
+double calculus::numIntegral(std::vector<double> x, std::vector<double> y){
+    if (x.size() != y.size()){
+        throw "Vector Size Error: Vectors x and y do not match in size.";
+    }
+    else if (x.size() < 2){
+        throw "Vector Size Error: Vectors are too short, must have a length of at least 2.";
+    }
+
+    double area = 0;
+    double h = 0;
+
+    for (int i=0; i<(x.size()-1); i++){
+        h = x[i+1]-x[i];
+        area += (y[i+1]+y[i])*(h/2);
+    }
+
+    return area;
+}
+/**
+ * *Functional Integral Evaluation from a to b
+ * @param double_func_ptr func : Function for integration
+ * @param double a : start point
+ * @param double b : end point
+ * @param double TOL : Tolerance for integration (default=1e-6)
+ * @return {double} area : Integral evaluation
+*/
+double calculus::funcIntegral(double (*func)(double), double a, double b, double TOL){
+    double area, h;
+    std::vector<double> x = math::linspace(a,b,1/TOL);
+    std::vector<double> y;
+
+    for (int i=0; i<x.size(); i++){
+        y.push_back(func(x[i]));
+    }
+    
+    h = math::abs(b-a)/(1/TOL);
+
+    for (int i=0; i < (x.size()-1); i++){
+        area += (y[i+1]+y[i])*h*0.5;
+    }
+
+    return area;
+}
+
 
 //*Root-Solving functions (roots::)
 /**

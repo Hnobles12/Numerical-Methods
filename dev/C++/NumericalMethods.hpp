@@ -44,7 +44,7 @@ namespace calculus{
     double funcDerivative(double (*func)(double), double point, double TOL);
     double avgDerivative(std::vector<double> x, std::vector<double> y);
 
-    double numIntegral(std::vector<double> x, double a, double b, int divs=100000);
+    double numIntegral(std::vector<double> x, std::vector<double> y);
     double funcIntegral(double (*func)(double), double a, double b, double TOL=1e-6);
 }
 namespace roots{

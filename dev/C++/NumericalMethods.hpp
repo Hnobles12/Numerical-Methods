@@ -36,11 +36,16 @@ namespace math{
 
     double vectorAvg(Vector vec);
     double vectorAvg(std::vector<double> vec);
+
+    std::vector<double> linspace(double a, double b, int divs=0);
 }
 namespace calculus{
     std::vector<double> numDerivative(std::vector<double> x, std::vector<double> y);
     double funcDerivative(double (*func)(double), double point, double TOL);
     double avgDerivative(std::vector<double> x, std::vector<double> y);
+
+    double numIntegral(std::vector<double> x, double a, double b, int divs=100000);
+    double funcIntegral(double (*func)(double), double a, double b, double TOL=1e-6);
 }
 namespace roots{
     double bisection(double (*func)(double), double a, double b, double TOL=1e-6);

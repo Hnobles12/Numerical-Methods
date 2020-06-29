@@ -1,5 +1,6 @@
 #include "NumericalMethods.hpp"
 #include <iostream>
+#include <vector>
 #include <cmath>
 
 
@@ -11,6 +12,10 @@ double test_func(double x){
 }
 
 int main(){
-    double zero = roots::newton(test_func, 2000, 1e-20);
-    cout << zero << endl;
+    vector<double> ans = math::linspace(0,10,10);
+    for (int i=0; i<ans.size(); i++){
+        cout << ans[i] << endl;
+    }
+    //cout << ans.size() << endl;
+
 }

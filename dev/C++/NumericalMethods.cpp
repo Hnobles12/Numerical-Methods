@@ -120,6 +120,38 @@ double math::vectorAvg(std::vector<double> vec){
     }
     return sum/len;
 }
+/**
+ * *Linspace: divides distance between two values into a vector with divisions.
+ * @param double a : Start value
+ * @param double b : End value
+ * @param int divs : Number of divisions
+ * @return {std::vector<double>} vec : Output vector
+*/
+std::vector<double> math::linspace(double a, double b, int divs){
+    if (a == b){
+        throw "Value Error: Start and end values are identical.";
+    }
+    
+    std::vector<double> vec;
+    if (divs == 0){
+        vec.push_back(a);
+        vec.push_back(b);
+        return vec;
+    }
+
+    double dx = (b-a)/divs;
+    double num = a;
+    vec.push_back(num);
+
+    for (int i=1; i != divs; i++){
+        num = a + i*dx;
+        //std::cout << "in loop" << std::endl;
+        vec.push_back(num);
+        //std::cout << num << std::endl;
+    }
+    vec.push_back(b);
+    return vec;
+}
 
 
 //*Calculus Functions (calculus::)

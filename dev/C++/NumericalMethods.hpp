@@ -7,17 +7,17 @@
 #include <cmath>
 namespace misc{
 
+    int closestVal(std::vector<double> vec, double val);
+    int closestVal(double vec[]);
+
+}
+namespace math{
     bool sign(double num);
     bool sign(int num);
 
     int abs(int num);
     double abs(double num);
 
-    int closestVal(std::vector<double> vec, double val);
-    int closestVal(double vec[]);
-
-}
-namespace math{
     /**
      * 3-D Vector Class <x,y,z>
      * @param double x : X-Value
@@ -39,12 +39,13 @@ namespace math{
 }
 namespace calculus{
     std::vector<double> numDerivative(std::vector<double> x, std::vector<double> y);
-    //std::array<double> numDerivative(double x[], double y[]);
-
     double funcDerivative(double (*func)(double), double point, double TOL);
+    double avgDerivative(std::vector<double> x, std::vector<double> y);
 }
 namespace roots{
-    
+    double bisection(double (*func)(double), double a, double b, double TOL=1e-6);
+    double newton(double (*func)(double), double x, double TOL=1e-6, int max_iter=100);
+
 }
 
 //#endif

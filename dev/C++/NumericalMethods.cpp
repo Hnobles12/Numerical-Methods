@@ -1,42 +1,7 @@
 #include "NumericalMethods.hpp"
+#include <iostream>
 
-//Misc Functions
-/**
-* Sign of a Double
-* @param double num : Number
-* @return {bool} True : Positive | False : Negative
-*/
-bool misc::sign(double num){
-    if (num >= 0){return true;}
-    else {return false;}
-}
-/** 
- * Sign of an Integer
- * @param int num : Number
- * @return {bool} True : Positive | False : Negative
-*/
-bool misc::sign(int num){
-    if (num >= 0){return true;}
-    else {return false;}
-}
-/**
- * Absolute value of an integer
- * @param int num 
- * @return int num : absolute value
-*/
-int misc::abs(int num){
-    if (num < 0){return num*-1;}
-    else{return num;}
-}
-/**
- * Absolute value of a double
- * @param double num
- * @return double num : absolute value
-*/
-double misc::abs(double num){
-    if (num < 0){return num*-1;}
-    else{return num;}
-}
+//*Misc Functions (misc::)
 /**
  * Closest Value index in vector
  * @param std::vector<double> vec
@@ -48,7 +13,7 @@ int misc::closestVal(std::vector<double> vec, double val){
     std::vector<double> diffs;
 
     for (int i=0; i< (vec.size()-1); i++){
-        diffs.push_back(misc::abs(vec[i]));
+        diffs.push_back(math::abs(vec[i]));
     }
 
     int index = *std::min_element(diffs.begin(),diffs.end());
@@ -56,7 +21,43 @@ int misc::closestVal(std::vector<double> vec, double val){
 }
 
 
-//Math Fucntions
+//*Math Fucntions (math::)
+/**
+* Sign of a Double
+* @param double num : Number
+* @return {bool} True : Positive | False : Negative
+*/
+bool math::sign(double num){
+    if (num >= 0){return true;}
+    else {return false;}
+}
+/** 
+ * Sign of an Integer
+ * @param int num : Number
+ * @return {bool} True : Positive | False : Negative
+*/
+bool math::sign(int num){
+    if (num >= 0){return true;}
+    else {return false;}
+}
+/**
+ * Absolute value of an integer
+ * @param int num 
+ * @return int num : absolute value
+*/
+int math::abs(int num){
+    if (num < 0){return num*-1;}
+    else{return num;}
+}
+/**
+ * Absolute value of a double
+ * @param double num
+ * @return double num : absolute value
+*/
+double math::abs(double num){
+    if (num < 0){return num*-1;}
+    else{return num;}
+}
 /**
 *Vector Type Constructor
 * @param double x_val : X Value
@@ -121,7 +122,7 @@ double math::vectorAvg(std::vector<double> vec){
 }
 
 
-//Calculus Functions
+//*Calculus Functions (calculus::)
 /**
  * Numerical Derivative (dy/dx) - Finite Difference
 * @param std::vector<double> x
@@ -156,6 +157,7 @@ std::vector<double> calculus::numDerivative(std::vector<double> x, std::vector<d
  * @return double avg_diff : Derivative evaluation
 */
 double calculus::funcDerivative(double (*func)(double), double point, double TOL=1e-6){
+
     std::vector<double> x, y, dy;
     double avg_diff;
 
@@ -176,4 +178,75 @@ double calculus::funcDerivative(double (*func)(double), double point, double TOL
     avg_diff = math::vectorAvg(dy);
 
     return avg_diff;
+}
+/**
+ * *Average derivative of a vector (dy/dx)
+ * @param std::vector<double> x : independent vector
+ * @param std::vecotr<double> y : dependant vector
+ * @return {double} avg_diff : Average Derivative 
+*/
+double calculus::avgDerivative(std::vector<double> x, std::vector<double> y){
+    std::vector<double> diff = numDerivative(x,y);
+    double avg_diff = math::vectorAvg(diff);
+    return avg_diff;
+}
+
+//*Root-Solving functions (roots::)
+/**
+ * Bisection Method for root solving
+ * @param double_return_function (double(*func) (double)) func : Function for root solving
+ * @param double a : first bound
+ * @param double b : second bound
+ * @return {double} xmid : x-value of root
+*/
+double roots::bisection(double (*func)(double), double a, double b, double TOL){
+    bool a_sign = math::sign(func(a));
+    bool b_sign = math::sign(func(b));
+
+    if (a_sign == b_sign){
+        throw "Root is not bracketed by [a,b].";
+    }
+
+    double xmid = (a+b)/2;
+    double eval = func(xmid);
+    double i=0;
+
+    while (math::abs(eval) > TOL){
+        if (math::sign(func(xmid)) == a_sign){
+            a = xmid;
+            a_sign = math::sign(func(a));
+        }
+        else {
+            b = xmid;
+            b_sign = math::sign(func(b));
+        }
+        
+        xmid = (a+b)/2;
+        eval = func(xmid);
+    }
+
+    return xmid;
+}
+/**
+ * *Newton Method for root solving
+ * @param double_func_ptr func : function for root solving
+ * @param double x : starting point for iteration
+ * @param double TOL : Tolerance for convergence (default=1e-6)
+*/ 
+double roots::newton(double(*func)(double), double x, double TOL, int max_iter){
+    double diff, i = 0;
+
+    while (math::abs(func(x)) > TOL){
+        diff = calculus::funcDerivative(func, x, 1e-6);
+        if (diff == 0){
+            throw "Division Error: Division by Zero.";
+        }
+        if (i>max_iter){
+            throw "Iteration Error: Maximum number of iterations exceded.";
+        }
+        std::cout << x << ", " << func(x) << std::endl;
+        x = x - (func(x)/diff);
+        i++;
+    }
+    return x;
 }
